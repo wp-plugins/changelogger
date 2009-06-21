@@ -31,7 +31,7 @@ If you have suggestions please let me know by dropping me a line via e-mail or t
 
 = Where can I get more information? =
 
-Please visit [the official website](http://www.schloebe.de/wordpress/better-plugin-compatibility-control-plugin/#english "Better Plugin Compatibility Control") for the latest information on this plugin.
+Please visit [the official website](http://www.schloebe.de/wordpress/changelogger-plugin/#english "Changelogger") for the latest information on this plugin.
 
 == Installation ==
 

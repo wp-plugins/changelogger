@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Changelogger v1.0\n"
+"PO-Revision-Date: 2009-06-21 16:37+0200\n"
+"Last-Translator: Oliver Schlöbe <scripts@schloebe.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;__ngettext_noop:1,2;_c\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: ."
+
+#: changelogger.php:164
+#, php-format
+msgid "What has changed in version %1$s"
+msgstr "Was hat sich geändert in Version %1$s"
+
+#: changelogger.php:170
+#, php-format
+msgid "<strong>ERROR</strong>: %s"
+msgstr "<strong>FEHLER</strong>: %s"
+
+#: changelogger.php:235
+msgid "Changelogger requires at least WordPress 2.7!"
+msgstr "Changelogger benötigt mindestens WordPress 2.7!"
+

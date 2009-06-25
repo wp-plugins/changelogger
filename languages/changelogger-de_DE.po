@@ -14,17 +14,22 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "X-Poedit-SearchPath-0: ."
 
-#: changelogger.php:164
+#: changelogger.php:162
 #, php-format
 msgid "What has changed in version %1$s"
 msgstr "Was hat sich geändert in Version %1$s"
 
-#: changelogger.php:170
+#: changelogger.php:176
 #, php-format
 msgid "<strong>ERROR</strong>: %s"
 msgstr "<strong>FEHLER</strong>: %s"
 
-#: changelogger.php:235
+#: changelogger.php:241
 msgid "Changelogger requires at least WordPress 2.7!"
 msgstr "Changelogger benötigt mindestens WordPress 2.7!"
+
+#: changelogger.php:171
+#, php-format
+msgid "There is no changelog section provided for this plugin. Please encourage the plugin author to add a changelog section to the plugin's readme! Contact %s! [<a href=\"http://westi.wordpress.com/2009/06/20/changelogs-changelogs-changelogs/\" target=\"_blank\">More</a>]"
+msgstr "Es gibt keinen Changelog-Abschnitt für dieses Plugin. Bitte empfehlen Sie dem Pluginautor, einen Changelog-Abschnitt in der readme-Datei des Plugin zu erstellen! Kontaktieren Sie %s! [<a href=\"http://westi.wordpress.com/2009/06/20/changelogs-changelogs-changelogs/\" target=\"_blank\">Mehr</a>]"
 

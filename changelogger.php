@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.0
+Version: 1.0.0.1
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -49,7 +49,7 @@ if ( !defined( 'WP_PLUGIN_DIR' ) )
 /**
  * Define the plugin version
  */
-define("CLOS_VERSION", "1.0");
+define("CLOS_VERSION", "1.0.0.1");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -112,8 +112,8 @@ class Changelogger {
 		}
 		
 		if ( is_admin() ) {
-			add_action('init', array(&$this, 'load_textdomain'));
-			add_action('init', array(&$this, 'init'));
+			add_action('admin_init', array(&$this, 'load_textdomain'));
+			add_action('admin_init', array(&$this, 'init'));
 			add_action('after_plugin_row', array(&$this, 'display_info_row'), 50, 2);
 		}
 	}
@@ -142,9 +142,7 @@ class Changelogger {
  	* @since 1.0
  	* @author scripts@schloebe.de
  	*/
-	function display_info_row( $file, $plugin_data ) {
-		global $wp_version;
-		
+	function display_info_row( $file, $plugin_data ) {		
 		$current = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? get_transient( 'update_plugins' ) : get_option( 'update_plugins' );
 		if (!isset($current->response[$file])) return false;
 		
@@ -164,6 +162,14 @@ class Changelogger {
 					echo sprintf(__('What has changed in version %1$s', 'changelogger'), trim($changelog_result[0][0]));
 					echo '</div></td></tr>';
 				}
+			} else {
+				#print_r($api);
+				$is_active = is_plugin_active( $file );
+				$class = $is_active ? 'active' : 'inactive';
+				$class_tr = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? ' class="plugin-update-tr second ' . $class . '"' : '';
+				echo '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
+				echo '<span style="color:#A36300;">' . sprintf(__('There is no changelog section provided for this plugin. Please encourage the plugin author to add a changelog section to the plugin\'s readme! Contact %s! [<a href="http://westi.wordpress.com/2009/06/20/changelogs-changelogs-changelogs/" target="_blank">More</a>]', 'changelogger'), $api->author) . '</span>';
+				echo '</div></td></tr>';
 			}
 		} else {
 			echo '<tr class="plugin-update-tr"><td colspan="' . $columns . '"><div class="update-message CLOS-message">';

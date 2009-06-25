@@ -20,6 +20,7 @@ For many many people a changelog is a very important thing; it is all about just
 
 * English
 * German (de_DE) (Thanks to me ;-))
+* Romanian (ro_RO) (Thanks for contributing romanian language goes to [Jürgen Toth](http://www.relijoc.ro))
 
 **Want update feeds, code documentation and more? Visit [extend.schloebe.de](http://extend.schloebe.de)**
 

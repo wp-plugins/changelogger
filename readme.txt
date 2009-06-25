@@ -46,6 +46,7 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 = 1.0.5 =
 * Added readme.txt changelog section
 * Added romanian localization (Thanks to Jürgen Toth!)
+* Added note when there's no changelog section available
 
 = 1.0 =
 * Plugin released

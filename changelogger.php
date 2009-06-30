@@ -157,7 +157,7 @@ class Changelogger {
 					$class = $is_active ? 'active' : 'inactive';
 					$class_tr = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? ' class="plugin-update-tr second ' . $class . '"' : '';
 					echo '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
-					echo sprintf(__('What has changed in version %1$s', 'changelogger'), trim( wp_specialchars( $changelog_result[0][0] )));
+					echo sprintf(__('What has changed in version %1$s', 'changelogger'), trim( $changelog_result[0][0] ));
 					echo '</div></td></tr>';
 				}
 			} else {

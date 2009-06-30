@@ -20,7 +20,7 @@ For many many people a changelog is a very important thing; it is all about just
 
 * English
 * German (de_DE) (Thanks to me ;-))
-* Romanian (ro_RO) (Thanks for contributing romanian language goes to [Jürgen Toth](http://www.relijoc.ro))
+* Romanian (ro_RO) (Thanks for contributing romanian language goes to [Juergen Toth](http://www.relijoc.ro))
 
 **Want update feeds, code documentation and more? Visit [extend.schloebe.de](http://extend.schloebe.de)**
 
@@ -44,6 +44,10 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 == Changelog ==
 
 = 1.0.5 =
+* Some code changes
+* Yeah, nothing more. Really.
+
+= 1.0.0.1 =
 * Added note when there's no changelog section available
 * Added romanian localization (Thanks to Jürgen Toth!)
 

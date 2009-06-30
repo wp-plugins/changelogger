@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.0.0.1
+Version: 1.0.5
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -32,10 +32,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
-/**
- * Pre-2.6 compatibility
- */
 if ( !defined( 'WP_CONTENT_URL' ) )
 	define( 'WP_CONTENT_URL', get_option( 'siteurl' ) . '/wp-content' );
 if ( !defined( 'WP_CONTENT_DIR' ) )
@@ -49,7 +45,7 @@ if ( !defined( 'WP_PLUGIN_DIR' ) )
 /**
  * Define the plugin version
  */
-define("CLOS_VERSION", "1.0.0.1");
+define("CLOS_VERSION", "1.0.5");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -137,9 +133,11 @@ class Changelogger {
 	
 	
 	/**
- 	* Add a plugin row to display changelog via plugin API
+ 	* Add a plugin row to display changelog via WP plugin API
  	*
  	* @since 1.0
+ 	* @param string $file
+ 	* @param array $plugin_data
  	* @author scripts@schloebe.de
  	*/
 	function display_info_row( $file, $plugin_data ) {		
@@ -159,7 +157,7 @@ class Changelogger {
 					$class = $is_active ? 'active' : 'inactive';
 					$class_tr = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? ' class="plugin-update-tr second ' . $class . '"' : '';
 					echo '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
-					echo sprintf(__('What has changed in version %1$s', 'changelogger'), trim($changelog_result[0][0]));
+					echo sprintf(__('What has changed in version %1$s', 'changelogger'), trim( wp_specialchars( $changelog_result[0][0] )));
 					echo '</div></td></tr>';
 				}
 			} else {
@@ -176,9 +174,6 @@ class Changelogger {
 			echo sprintf(__('<strong>ERROR</strong>: %s', 'changelogger'), $api->get_error_message());
 			echo '</div></td></tr>';
 		}
-		#echo '<tr class="plugin-update-tr"><td colspan="' . $columns . '"><div class="update-message CLOS-message">';
-		#print_r( $api );
-		#echo '</div></td></tr>';
 	}
 
 

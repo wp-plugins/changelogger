@@ -43,13 +43,17 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 == Changelog ==
 
+= 1.1.0 =
+* Added note when the changelog section is not readable
+* Added caching mechanism where applicable to save on remote api calls
+
 = 1.0.5 =
 * Some code changes
 * Yeah, nothing more. Really.
 
 = 1.0.0.1 =
 * Added note when there's no changelog section available
-* Added romanian localization (Thanks to Jürgen Toth!)
+* Added romanian localization (Thanks to Juergen Toth!)
 
 = 1.0 =
 * Plugin released

@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.0.5
+Version: 1.1.0
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -45,7 +45,7 @@ if ( !defined( 'WP_PLUGIN_DIR' ) )
 /**
  * Define the plugin version
  */
-define("CLOS_VERSION", "1.0.5");
+define("CLOS_VERSION", "1.1.0");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -143,37 +143,47 @@ class Changelogger {
 	function display_info_row( $file, $plugin_data ) {		
 		$current = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? get_transient( 'update_plugins' ) : get_option( 'update_plugins' );
 		if (!isset($current->response[$file])) return false;
+		$output = '';
 		
 		$r = $current->response[ $file ];	
 		include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 		$columns = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? 3 : 5;
-		$api = plugins_api('plugin_information', array('slug' => $r->slug, 'fields' => array('tested' => false, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
-		if ( !is_wp_error( $api ) && current_user_can('update_plugins') ) {
-			if( isset($api->sections['changelog']) ) {
-				$changelog = $api->sections['changelog'];
-				$section_exists = preg_match_all('/<h4>(.*)<\/h4>[\n|\r]{0,}<ul>(.*)<\/ul>[\w|\W]{0,}/isU', $changelog, $changelog_result);
-				if( $section_exists ) {
-					$is_active = is_plugin_active( $file );
-					$class = $is_active ? 'active' : 'inactive';
-					$class_tr = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? ' class="plugin-update-tr second ' . $class . '"' : '';
-					echo '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
-					echo sprintf(__('What has changed in version %1$s', 'changelogger'), trim( $changelog_result[0][0] ));
-					echo '</div></td></tr>';
-				}
-			} else {
-				#print_r($api);
+		
+		$cache_key = 'changelogger_plugin_changelog_' . $r->slug;
+		$output = wp_cache_get($cache_key, 'changelogger');
+		
+		if (false === $output) {
+			$api = plugins_api('plugin_information', array('slug' => $r->slug, 'fields' => array('tested' => false, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
+			if ( !is_wp_error( $api ) && current_user_can('update_plugins') ) {
 				$is_active = is_plugin_active( $file );
 				$class = $is_active ? 'active' : 'inactive';
 				$class_tr = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? ' class="plugin-update-tr second ' . $class . '"' : '';
-				echo '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
-				echo '<span style="color:#A36300;">' . sprintf(__('There is no changelog section provided for this plugin. Please encourage the plugin author to add a changelog section to the plugin\'s readme! Contact %s! [<a href="http://westi.wordpress.com/2009/06/20/changelogs-changelogs-changelogs/" target="_blank">More</a>]', 'changelogger'), $api->author) . '</span>';
-				echo '</div></td></tr>';
+				if( isset($api->sections['changelog']) ) {
+					$changelog = $api->sections['changelog'];
+					$section_exists = preg_match_all('/<h4>(.*)<\/h4>[\n|\r]{0,}<ul>(.*)<\/ul>[\w|\W]{0,}/isU', $changelog, $changelog_result);
+					if( $section_exists ) {
+						$output .= '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
+						$output .= sprintf(__('What has changed in version %1$s', 'changelogger'), trim( $changelog_result[0][0] ));
+						$output .= '</div></td></tr>';
+					} else {
+						$output .= '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
+						$output .= '<span style="color:#A36300;">' . sprintf(__('There is a changelog section for this plugin, but it is not readable, propably because it <strong>does not match the <a href="http://wordpress.org/extend/plugins/about/readme.txt" target="_blank">readme.txt standards</a></strong>!', 'changelogger')) . '</span>';
+						$output .= '</div></td></tr>';
+					}
+				} else {
+					#print_r($api);
+					$output .= '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
+					$output .= '<span style="color:#A36300;">' . sprintf(__('There is <strong>no changelog section provided for this plugin</strong>. Please encourage the plugin author to add a changelog section to the plugin\'s readme! Contact %s! [<a href="http://westi.wordpress.com/2009/06/20/changelogs-changelogs-changelogs/" target="_blank">More</a>]', 'changelogger'), $api->author) . '</span>';
+					$output .= '</div></td></tr>';
+				}
+			} else {
+				$output .= '<tr class="plugin-update-tr"><td colspan="' . $columns . '"><div class="update-message CLOS-message">';
+				$output .= sprintf(__('<strong>ERROR</strong>: %s', 'changelogger'), $api->get_error_message());
+				$output .= '</div></td></tr>';
 			}
-		} else {
-			echo '<tr class="plugin-update-tr"><td colspan="' . $columns . '"><div class="update-message CLOS-message">';
-			echo sprintf(__('<strong>ERROR</strong>: %s', 'changelogger'), $api->get_error_message());
-			echo '</div></td></tr>';
+			wp_cache_set($cache_key, $output, 'changelogger', 86400);
 		}
+		echo $output;
 	}
 
 

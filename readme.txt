@@ -14,7 +14,7 @@ The 20th of June 2009 was the day when changelogs found their way into readme.tx
 
 For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. **Changelogger shows the latest changelog right on the plugin listing page**, whenever there's a plugin ready to be updated. 
 
-**Note:** The changelog on a plugin update is being shown if the plugin author added a changelog section based on the new [readme.txt example file](http://wordpress.org/extend/plugins/about/readme.txt "readme.txt example file") to their plugin's readme file.
+**Note:** The inline changelog on a plugin update shows up if the plugin author added a changelog section based on the new [readme.txt example file](http://wordpress.org/extend/plugins/about/readme.txt "readme.txt example file") to their plugin's readme file.
 
 **Included languages:**
 

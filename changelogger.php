@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.1.0
+Version: 1.1.1
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -45,7 +45,7 @@ if ( !defined( 'WP_PLUGIN_DIR' ) )
 /**
  * Define the plugin version
  */
-define("CLOS_VERSION", "1.1.0");
+define("CLOS_VERSION", "1.1.1");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -164,16 +164,16 @@ class Changelogger {
 					if( $section_exists ) {
 						$output .= '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
 						$output .= sprintf(__('What has changed in version %1$s', 'changelogger'), trim( $changelog_result[0][0] ));
-						$output .= '</div></td></tr>';
+						$output .= ' ' . sprintf(__('If you are interested, check out the plugin\'s <a href="http://plugins.trac.wordpress.org/log/%s/trunk" target="_blank">Revision Log</a>!', 'changelogger'), $r->slug) . '</div></td></tr>';
 					} else {
 						$output .= '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
-						$output .= '<span style="color:#A36300;">' . sprintf(__('There is a changelog section for this plugin, but it is not readable, propably because it <strong>does not match the <a href="http://wordpress.org/extend/plugins/about/readme.txt" target="_blank">readme.txt standards</a></strong>!', 'changelogger')) . '</span>';
+						$output .= '<span style="color:#A36300;">' . sprintf(__('There is a changelog section for this plugin, but it is not readable, propably because it <strong>does not match the <a href="http://wordpress.org/extend/plugins/about/readme.txt" target="_blank">readme.txt standards</a></strong>!', 'changelogger')) . ' ' . sprintf(__('If you are interested, check out the plugin\'s <a href="http://plugins.trac.wordpress.org/log/%s/trunk" target="_blank">Revision Log</a>!', 'changelogger'), $r->slug) . '</span>';
 						$output .= '</div></td></tr>';
 					}
 				} else {
 					#print_r($api);
 					$output .= '<tr' . $class_tr . '><td class="plugin-update CLOS-plugin-update" colspan="' . $columns . '"><div class="update-message CLOS-message">';
-					$output .= '<span style="color:#A36300;">' . sprintf(__('There is <strong>no changelog section provided for this plugin</strong>. Please encourage the plugin author to add a changelog section to the plugin\'s readme! Contact %s! [<a href="http://westi.wordpress.com/2009/06/20/changelogs-changelogs-changelogs/" target="_blank">More</a>]', 'changelogger'), $api->author) . '</span>';
+					$output .= '<span style="color:#A36300;">' . sprintf(__('There is <strong>no changelog section provided for this plugin</strong>. Please encourage the plugin author to add a changelog section to the plugin\'s readme! Contact %s! [<a href="http://westi.wordpress.com/2009/06/20/changelogs-changelogs-changelogs/" target="_blank">More</a>]', 'changelogger'), $api->author) . ' ' . sprintf(__('If you are interested, check out the plugin\'s <a href="http://plugins.trac.wordpress.org/log/%s/trunk" target="_blank">Revision Log</a>!', 'changelogger'), $r->slug) . '</span>';
 					$output .= '</div></td></tr>';
 				}
 			} else {

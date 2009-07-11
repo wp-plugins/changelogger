@@ -43,6 +43,9 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 == Changelog ==
 
+= 1.1.1 =
+* Added link to Trac revision log
+
 = 1.1.0 =
 * Added note when the changelog section is not readable
 * Added caching mechanism where applicable to save on remote api calls

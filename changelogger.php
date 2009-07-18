@@ -102,6 +102,8 @@ class Changelogger {
  	* @author scripts@schloebe.de
  	*/		
 	function __construct(){
+		$this->textdomain_loaded = false;
+		
 		if ( !CLOSISWP27 ) {
 			add_action('admin_notices', array(&$this, 'wpVersion27Failed'));
 			return;
@@ -140,12 +142,12 @@ class Changelogger {
  	* @param array $plugin_data
  	* @author scripts@schloebe.de
  	*/
-	function display_info_row( $file, $plugin_data ) {		
+	function display_info_row( $file, $plugin_data ) {	
 		$current = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? get_transient( 'update_plugins' ) : get_option( 'update_plugins' );
 		if (!isset($current->response[$file])) return false;
 		$output = '';
 		
-		$r = $current->response[ $file ];	
+		$r = $current->response[ $file ];
 		include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 		$columns = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? 3 : 5;
 		
@@ -188,7 +190,7 @@ class Changelogger {
 
 
 	/**
-	 * Writes the css stuff into plugin page header needed for the plugin to look good ;)
+	 * Writes the css stuff into plugin page header needed for the plugin to look good
 	 *
 	 * @since 1.0
 	 * @author scripts@schloebe.de
@@ -225,12 +227,9 @@ div.CLOS-message ul {
  	* @author scripts@schloebe.de
  	*/
 	function load_textdomain() {
-		if ( function_exists('load_plugin_textdomain') ) {
-			if ( !defined('WP_PLUGIN_DIR') )
-       		 	load_plugin_textdomain('changelogger', str_replace( ABSPATH, '', dirname(__FILE__) ) . '/languages');
-        	else
-        		load_plugin_textdomain('changelogger', false, dirname(plugin_basename(__FILE__)) . '/languages');
-		}
+		if($this->textdomain_loaded) return;
+		load_plugin_textdomain('changelogger', false, dirname(plugin_basename(__FILE__)) . '/languages');
+		$this->textdomain_loaded = true;
 	}
 	
 	

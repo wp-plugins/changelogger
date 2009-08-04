@@ -1,1 +1,81 @@
-MIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Oliver Schl&ouml;be
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/changelogger\n"
+"POT-Creation-Date: 2009-08-04 18:51+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: changelogger.php:168
+#, php-format
+msgid "What has changed in version %1$s"
+msgstr ""
+
+#: changelogger.php:169 changelogger.php:172 changelogger.php:178
+#, php-format
+msgid ""
+"If you are interested, check out the plugin's <a href=\"http://plugins.trac."
+"wordpress.org/log/%s/trunk\" target=\"_blank\">Revision Log</a>!"
+msgstr ""
+
+#: changelogger.php:172
+msgid ""
+"There is a changelog section for this plugin, but it is not readable, "
+"propably because it <strong>does not match the <a href=\"http://wordpress."
+"org/extend/plugins/about/readme.txt\" target=\"_blank\">readme.txt "
+"standards</a></strong>!"
+msgstr ""
+
+#: changelogger.php:178
+#, php-format
+msgid ""
+"There is <strong>no changelog section provided for this plugin</strong>. "
+"Please encourage the plugin author to add a changelog section to the "
+"plugin's readme! Contact %s! [<a href=\"http://westi.wordpress."
+"com/2009/06/20/changelogs-changelogs-changelogs/\" target=\"_blank\">More</"
+"a>]"
+msgstr ""
+
+#: changelogger.php:183
+#, php-format
+msgid "<strong>ERROR</strong>: %s"
+msgstr ""
+
+#: changelogger.php:245
+msgid "Changelogger requires at least WordPress 2.7!"
+msgstr ""
+
+#. Plugin Name of an extension
+msgid "Changelogger"
+msgstr ""
+
+#. Plugin URI of an extension
+msgid "http://www.schloebe.de/wordpress/changelogger-plugin/"
+msgstr ""
+
+#. Description of an extension
+msgid ""
+"<strong>WordPress 2.7+ only.</strong> For many many people a changelog is a "
+"very important thing; it is all about justifying to your users why they "
+"should upgrade to the latest version of a plugin. Changelogger shows the "
+"latest changelog right on the plugin listing page, whenever there's a plugin "
+"ready to be updated."
+msgstr ""
+
+#. Author of an extension
+msgid "Oliver Schl&ouml;be"
+msgstr ""
+
+#. Author URI of an extension
+msgid "http://www.schloebe.de/"
+msgstr ""

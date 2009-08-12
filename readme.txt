@@ -22,6 +22,7 @@ For many many people a changelog is a very important thing; it is all about just
 * German (de_DE) (Thanks to me ;-))
 * Romanian (ro_RO) (Thanks for contributing romanian language goes to [Juergen Toth](http://www.relijoc.ro))
 * French (fr_FR) (Thanks for contributing french language goes to [Mehdi Kabab](http://pioupioum.fr))
+* Polish (pl_PL) (Thanks for contributing polish language goes to [Daniel Fruzynski](http://www.poradnik-webmastera.com/))
 
 **Want update feeds, code documentation and more? Visit [extend.schloebe.de](http://extend.schloebe.de)**
 

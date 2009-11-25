@@ -47,7 +47,7 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 = 1.1.5 =
 * Added support for [WP-Manage-Plugins](http://webdevstudios.com/support/wordpress-plugins/wp-manage-plugins/ "WP-Manage-Plugins") plugin (thanks to djr for suggesting!)
-* Improved localization
+* Improved german localization
 
 = 1.1.3 =
 * Improved changelog parsing

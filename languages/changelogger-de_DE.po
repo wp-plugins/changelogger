@@ -53,5 +53,5 @@ msgstr "Es gibt einen Changelog-Abschnitt für dieses Plugin, aber er ist nicht 
 #, php-format
 #@ changelogger
 msgid "If you are interested, check out the plugin's <a href=\"http://plugins.trac.wordpress.org/log/%s/trunk\" target=\"_blank\">Revision Log</a>!"
-msgstr "Wenn Sie es interessiert, werfen Sie einen Blick auf das <a href=\"http://plugins.trac.wordpress.org/log/%s/trunk\" target=\"_blank\">Revision Log</a>!"
+msgstr "Wenn es Sie interessiert, werfen Sie einen Blick auf das <a href=\"http://plugins.trac.wordpress.org/log/%s/trunk\" target=\"_blank\">Revision Log</a>!"
 

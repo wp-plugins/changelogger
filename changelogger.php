@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.1.3
+Version: 1.1.5
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("CLOS_VERSION", "1.1.3");
+define("CLOS_VERSION", "1.1.5");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -118,7 +118,13 @@ class Changelogger {
  	* @param array $plugin_data
  	* @author scripts@schloebe.de
  	*/
-	function display_info_row( $file, $plugin_data ) {	
+	function display_info_row( $file, $plugin_data ) {
+		if( is_plugin_active( 'wp-manage-plugins/wp-manage-plugins.php' ) ) {
+			$plugins_ignored = get_option('plugin_update_ignore');
+			if ( in_array( $file, array_keys($plugins_ignored) ) )
+				return false;
+		}
+		
 		$current = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? get_transient( 'update_plugins' ) : get_option( 'update_plugins' );
 		if (!isset($current->response[$file])) return false;
 		$output = '';
@@ -209,6 +215,7 @@ div.CLOS-message ul {
 		load_plugin_textdomain('changelogger', false, dirname(plugin_basename(__FILE__)) . '/languages');
 		$this->textdomain_loaded = true;
 	}
+	
 	
 	
 	/**

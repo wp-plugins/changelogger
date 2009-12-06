@@ -3,7 +3,7 @@ Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
 Tags: changelogger, changelog, plugin, plugins, version, control
 Requires at least: 2.7
-Tested up to: 2.9-rare
+Tested up to: 2.9
 Stable tag: trunk
 
 Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
@@ -23,6 +23,7 @@ For many many people a changelog is a very important thing; it is all about just
 * Romanian (ro_RO) (Thanks for contributing romanian language goes to [Juergen Toth](http://www.relijoc.ro))
 * French (fr_FR) (Thanks for contributing french language goes to [Mehdi Kabab](http://pioupioum.fr))
 * Polish (pl_PL) (Thanks for contributing polish language goes to [Daniel Fruzynski](http://www.poradnik-webmastera.com/))
+* Belorussian (be_BY) (Thanks for contributing belorussian language goes to [FatCow](http://www.fatcow.com))
 
 **Want update feeds, code documentation and more? Visit [extend.schloebe.de](http://extend.schloebe.de)**
 
@@ -44,6 +45,10 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 4. Installation finished.
 
 == Changelog ==
+
+= 1.2 =
+* Cycle through all available changelogs of a plugin - inline
+* Added belorussian localization (Thanks to [FatCow](http://www.fatcow.com))
 
 = 1.1.5 =
 * Added support for [WP-Manage-Plugins](http://webdevstudios.com/support/wordpress-plugins/wp-manage-plugins/ "WP-Manage-Plugins") plugin (thanks to djr for suggesting!)

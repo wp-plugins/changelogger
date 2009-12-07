@@ -5,11 +5,13 @@ td.clos-plugin-update {
 
 .plugin-update-tr div.clos-message {
 	font-weight: normal;
+	text-align: left;
 }
 
 div.clos-message h4, div.clos-message p {
 	margin: 0;
 	display: inline;
+	text-align: left;
 }
 
 div.clos-message ul {

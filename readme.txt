@@ -46,6 +46,9 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 == Changelog ==
 
+= 1.2.1 =
+* Fixed an incompatiblity with the "Green Active Plugins!" that changed the text-align from left to center
+
 = 1.2 =
 * Cycle through all available changelogs of a plugin - inline
 * Added belorussian localization (Thanks to [FatCow](http://www.fatcow.com))

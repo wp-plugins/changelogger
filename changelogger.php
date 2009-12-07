@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.2
+Version: 1.2.1
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("clos_VERSION", "1.2");
+define("clos_VERSION", "1.2.1");
 
 /**
  * Define the global var closISWP27, returning bool if at least WP 2.7 is running

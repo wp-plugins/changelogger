@@ -46,6 +46,10 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 == Changelog ==
 
+= 1.2.5 =
+* Changelog parsing fixed (someone changed the plugins API, sheesh)
+* Added compatility information for a plugin's most recent update version
+
 = 1.2.1 =
 * Fixed an incompatiblity with the "Green Active Plugins!" that changed the text-align from left to center
 

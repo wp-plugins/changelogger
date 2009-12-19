@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.2.1
+Version: 1.2.5
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("clos_VERSION", "1.2.1");
+define("clos_VERSION", "1.2.5");
 
 /**
  * Define the global var closISWP27, returning bool if at least WP 2.7 is running
@@ -122,12 +122,15 @@ class Changelogger {
  	* @author 		scripts@schloebe.de
  	*/
 	function display_info_row( $file, $plugin_data ) {
+		global $wp_version;
+		
 		if( is_plugin_active( 'wp-manage-plugins/wp-manage-plugins.php' ) ) {
 			$plugins_ignored = get_option('plugin_update_ignore');
 			if ( in_array( $file, array_keys($plugins_ignored) ) )
 				return false;
 		}
 		
+		$cur_wp_version = preg_replace('/-.*$/', '', $wp_version);
 		$current = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? get_transient( 'update_plugins' ) : get_option( 'update_plugins' );
 		if (!isset($current->response[$file])) return false;
 		$output = '';
@@ -140,7 +143,7 @@ class Changelogger {
 		$output = wp_cache_get($cache_key, 'changelogger');
 		
 		if (false === $output) {
-			$api = plugins_api('plugin_information', array('slug' => $r->slug, 'fields' => array('tested' => false, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
+			$api = plugins_api('plugin_information', array('slug' => $r->slug, 'fields' => array('tested' => true, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
 			if ( !is_wp_error( $api ) && current_user_can('update_plugins') ) {
 				$is_active = is_plugin_active( $file );
 				$class = $is_active ? 'active' : 'inactive';
@@ -148,19 +151,32 @@ class Changelogger {
 				if( isset($api->sections['changelog']) ) {
 					echo '';
 					$changelog = $api->sections['changelog'];
-					$section_exists = preg_match_all('/(<h4>|<p><strong>)(.*)(<\/strong><\/p>|<\/h4>)[\n|\r]{0,}<ul>(.*)<\/ul>[\w|\W]{0,}/isU', $changelog, $changelog_result);
+					$section_exists = preg_match_all('/(<h4>|<p><strong>|<strong>|[\n|\r]{0,})(.*)([\n|\r]{0,}|<\/strong>|<\/strong><\/p>|<\/h4>)[\n|\r]{0,}<ul>(.*)<\/ul>[\w|\W]{0,}/isU', $changelog, $changelog_result);
 					if( $section_exists ) {
-						$search = array("<strong>Version ", "<h4>Version ", "<strong>v", "<h4>v");
-						$replace = array("<strong>", "<h4>", "<strong>", "<h4>");
+						#echo '<pre>';
+						#print_r($api);
+						#echo '</pre>';
+						$search = array("<strong>Version ", "<h4>Version ", "Version ", "<strong>v", "<h4>v", "v");
+						$replace = array("<strong>", "<h4>", "", "<strong>", "<h4>", "");
 						$output .= '<tr' . $class_tr . '><td class="plugin-update clos-plugin-update" colspan="' . $columns . '"><div class="update-message clos-message" id="clos-message-' . $r->slug . '">';
 						$changelog = trim( str_replace($search, $replace, $changelog_result[0][0]) );
 						$l_arrw = '&laquo; ';
 						$r_arrw = ' <a href="#" onclick="clos_ajax_load_changelog( \'' . $r->slug . '\', \'1\' );return false;" title="' . $this->_esc_attr__('Previous version') . '" class="clos-arrw clos-arrw-r">&raquo;</a>';
 						$changelog = preg_replace( "#<h4>(.*)<\/h4>#i", $l_arrw . '\0' . $r_arrw, $changelog );
 						$changelog = preg_replace( "#<p><strong>(.*)<\/strong><\/p>#i", $l_arrw . '\0' . $r_arrw, $changelog );
+						$changelog = preg_replace( "#[\n|\r]{0,}(.*)[\n|\r]{2,}#iU", $l_arrw . '<strong>\1</strong>' . $r_arrw, $changelog );
 						$output .= sprintf(__('What has changed in version %1$s', 'changelogger'), $changelog);
+						if ( isset($api->tested) && version_compare($api->tested, $cur_wp_version, '>=') ) {
+							$output .= ' ' . sprintf(__('Compatibility with WordPress %1$s: 100%% (according to its author).', 'changelogger'), $cur_wp_version);
+						} elseif ( isset($api->compatibility[$cur_wp_version][$r->new_version]) ) {
+							$compat = $api->compatibility[$cur_wp_version][$r->new_version];
+							$output .= ' ' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total).', 'changelogger'), $cur_wp_version, $compat[0], $compat[2], $compat[1]);
+						} else {
+							$output .= ' ' . sprintf(__('Compatibility with WordPress %1$s: Unknown.', 'changelogger'), $cur_wp_version);
+						}
 						$output .= ' ' . sprintf(__('If you are interested, check out the plugin\'s <a href="http://plugins.trac.wordpress.org/log/%s/trunk" target="_blank">Revision Log</a>!', 'changelogger'), $r->slug) . '</div></td></tr>';
 					} else {
+						#print_r($api);
 						$output .= '<tr' . $class_tr . '><td class="plugin-update clos-plugin-update" colspan="' . $columns . '"><div class="update-message clos-message">';
 						$output .= '<span style="color:#A36300;">' . sprintf(__('There is a changelog section for this plugin, but it is not readable, propably because it <strong>does not match the <a href="http://wordpress.org/extend/plugins/about/readme.txt" target="_blank">readme.txt standards</a></strong>!', 'changelogger')) . ' ' . sprintf(__('If you are interested, check out the plugin\'s <a href="http://plugins.trac.wordpress.org/log/%s/trunk" target="_blank">Revision Log</a>!', 'changelogger'), $r->slug) . '</span>';
 						$output .= '</div></td></tr>';
@@ -196,7 +212,7 @@ class Changelogger {
 		$api = plugins_api('plugin_information', array('slug' => $pluginslug, 'fields' => array('tested' => false, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
 		if( isset($api->sections['changelog']) ) {
 			$changelog = $api->sections['changelog'];
-			$section_exists = preg_match_all('/(<h4>|<p><strong>)(.*)(<\/strong><\/p>|<\/h4>)[\n|\r]{0,}<ul>(.*)<\/ul>[\w|\W]{0,}/isU', $changelog, $changelog_result);
+			$section_exists = preg_match_all('/(<h4>|<p><strong>|<strong>|[\n|\r]{0,})(.*)([\n|\r]{0,}|<\/strong>|<\/strong><\/p>|<\/h4>)[\n|\r]{0,}<ul>(.*)<\/ul>[\w|\W]{0,}/isU', $changelog, $changelog_result);
 			if( $section_exists ) {
 				$sectionidl = ($sectionid-1);
 				if( trim($changelog_result[0][$sectionidl]) != '' || !empty($changelog_result[0][$sectionidl]) )
@@ -215,6 +231,7 @@ class Changelogger {
 				$str_changelog = trim( str_replace($search, $replace, $changelog_result[0][$sectionid]) );
 				$str_changelog = preg_replace( "#<h4>(.*)<\/h4>#i", $l_arrw . '\0' . $r_arrw, $str_changelog );
 				$str_changelog = preg_replace( "#<p><strong>(.*)<\/strong><\/p>#i", $l_arrw . '\0' . $r_arrw, $str_changelog );
+				$str_changelog = preg_replace( "#[\n|\r]{0,}(.*)[\n|\r]{2,}#iU", $l_arrw . '<strong>\1</strong>' . $r_arrw, $str_changelog );
 				$versioninfo = sprintf(__('What has changed in version %1$s', 'changelogger'), $str_changelog);
 		
 				die("jQuery('div#clos-message-" . $pluginslug . "').fadeOut('slow', function() { jQuery(this).html(\"" . str_replace( chr(012), "", addslashes_gpc( $versioninfo ) ) . "\").fadeIn('slow') });");

@@ -8,12 +8,11 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.2.5
+Version: 1.2.6
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
 Author URI: http://www.schloebe.de/
-
 
 Copyright 2009 Oliver Schlöbe (email : scripts@schloebe.de)
 
@@ -36,12 +35,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("clos_VERSION", "1.2.5");
+define("CLOSVERSION", "1.2.6");
 
 /**
- * Define the global var closISWP27, returning bool if at least WP 2.7 is running
+ * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
  */
 define('CLOSISWP27', version_compare($GLOBALS['wp_version'], '2.6.999', '>'));
+
+/**
+ * Define the global var CLOSMINWP28, returning bool if at least WP 2.8 is running
+ */
+define('CLOSMINWP28', version_compare($GLOBALS['wp_version'], '2.7.999', '>'));
 
 
 /** 
@@ -54,6 +58,12 @@ define('CLOSISWP27', version_compare($GLOBALS['wp_version'], '2.6.999', '>'));
 */
 class Changelogger {
 
+	/**
+	 * Have one or more plugins been updated?
+	 * @access private
+	 */
+	private $plugins_updated;
+	
 	/**
  	* The Changelogger class constructor
  	* initializing required stuff for the plugin
@@ -89,7 +99,10 @@ class Changelogger {
 			add_action('admin_init', array(&$this, 'load_textdomain'));
 			add_action('admin_init', array(&$this, 'init'));
 			add_action('after_plugin_row', array(&$this, 'display_info_row'), 50, 2);
-			add_action('wp_ajax_clos_ajax_load_changelog', array(&$this, 'clos_ajax_load_changelog') );
+			add_action('wp_ajax_clos_ajax_load_changelog', array(&$this, 'clos_ajax_load_changelog'));
+			if( CLOSMINWP28 ) {
+				add_filter('pre_update_option_active_plugins', array(&$this, 'flush_changelog_cache'));
+			}
 		}
 	}
 	
@@ -106,8 +119,8 @@ class Changelogger {
 		if ( !function_exists("add_action") ) return;
 		
 		if( $pagenow == 'plugins.php' && !isset( $_GET['action'] ) ) {
-			add_action('admin_head', wp_enqueue_script( 'clos-generalscripts', $this->_plugins_url( 'js/admin_scripts.js', __FILE__ ), array('jquery', 'sack'), clos_VERSION ) );
-			add_action('admin_head', wp_enqueue_style( 'clos-generalstyles', $this->_plugins_url( 'css/style.css', __FILE__ ), array(), clos_VERSION, 'screen' ) );
+			add_action('admin_head', wp_enqueue_script( 'clos-generalscripts', $this->_plugins_url( 'js/admin_scripts.js', __FILE__ ), array('jquery', 'sack'), CLOSVERSION ) );
+			add_action('admin_head', wp_enqueue_style( 'clos-generalstyles', $this->_plugins_url( 'css/style.css', __FILE__ ), array(), CLOSVERSION, 'screen' ) );
 			add_action('admin_print_scripts', array(&$this, 'js_admin_header') );
 		}
 	}
@@ -131,13 +144,13 @@ class Changelogger {
 		}
 		
 		$cur_wp_version = preg_replace('/-.*$/', '', $wp_version);
-		$current = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? get_transient( 'update_plugins' ) : get_option( 'update_plugins' );
+		$current = CLOSMINWP28 ? get_transient( 'update_plugins' ) : get_option( 'update_plugins' );
 		if (!isset($current->response[$file])) return false;
 		$output = '';
 		
 		$r = $current->response[ $file ];
 		include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
-		$columns = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? 3 : 5;
+		$columns = CLOSMINWP28 ? 3 : 5;
 		
 		$cache_key = 'changelogger_plugin_changelog_' . $r->slug;
 		$output = wp_cache_get($cache_key, 'changelogger');
@@ -147,7 +160,7 @@ class Changelogger {
 			if ( !is_wp_error( $api ) && current_user_can('update_plugins') ) {
 				$is_active = is_plugin_active( $file );
 				$class = $is_active ? 'active' : 'inactive';
-				$class_tr = version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) ? ' class="plugin-update-tr second ' . $class . '"' : '';
+				$class_tr = CLOSMINWP28 ? ' class="plugin-update-tr second ' . $class . '"' : '';
 				if( isset($api->sections['changelog']) ) {
 					echo '';
 					$changelog = $api->sections['changelog'];
@@ -192,7 +205,7 @@ class Changelogger {
 				$output .= sprintf(__('<strong>ERROR</strong>: %s', 'changelogger'), $api->get_error_message());
 				$output .= '</div></td></tr>';
 			}
-			wp_cache_set($cache_key, $output, 'changelogger', 86400);
+			wp_cache_set($cache_key, $output, 'changelogger', 60*60*3);
 		}
 		echo $output;
 	}
@@ -205,8 +218,21 @@ class Changelogger {
  	* @author 		scripts@schloebe.de
  	*/
 	function clos_ajax_load_changelog() {
-		$sectionid = intval( $_POST['sectionid'] );
+		$sectionid = absint( $_POST['sectionid'] );
 		$pluginslug = $_POST['pluginslug'];
+		
+		header("Cache-Control: max-age=10800");
+		$offset = 60 * 60 * 24 * 3;
+		$ExpStr = "Expires: " . gmdate("D, d M Y H:i:s", time() + $offset) . " GMT";
+		header($ExpStr);
+		
+		if( CLOSMINWP28 ) {
+			$current_changelog = get_transient( 'clos_changelog_' . $pluginslug . '_' . $sectionid );
+			if ( $current_changelog ) {
+				$versioninfo = $current_changelog;
+				die("// Cached output" . chr(012) . "jQuery('div#clos-message-" . $pluginslug . "').fadeOut('fast', function() { jQuery(this).html(\"" . str_replace( chr(012), "", addslashes_gpc( $versioninfo ) ) . "\").fadeIn('normal') });");
+			}
+		}
 		
 		include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 		$api = plugins_api('plugin_information', array('slug' => $pluginslug, 'fields' => array('tested' => false, 'requires' => false, 'rating' => false, 'downloaded' => false, 'downloadlink' => false, 'last_updated' => false, 'homepage' => false, 'tags' => false, 'sections' => true) ));
@@ -233,10 +259,48 @@ class Changelogger {
 				$str_changelog = preg_replace( "#<p><strong>(.*)<\/strong><\/p>#i", $l_arrw . '\0' . $r_arrw, $str_changelog );
 				$str_changelog = preg_replace( "#[\n|\r]{0,}(.*)[\n|\r]{2,}#iU", $l_arrw . '<strong>\1</strong>' . $r_arrw, $str_changelog );
 				$versioninfo = sprintf(__('What has changed in version %1$s', 'changelogger'), $str_changelog);
-		
-				die("jQuery('div#clos-message-" . $pluginslug . "').fadeOut('slow', function() { jQuery(this).html(\"" . str_replace( chr(012), "", addslashes_gpc( $versioninfo ) ) . "\").fadeIn('slow') });");
+				
+				if( CLOSMINWP28 && !$current_changelog )
+					set_transient('clos_changelog_' . $pluginslug . '_' . $sectionid, $versioninfo, 60*60*3);
+				
+				die("jQuery('div#clos-message-" . $pluginslug . "').fadeOut('fast', function() { jQuery(this).html(\"" . str_replace( chr(012), "", addslashes_gpc( $versioninfo ) ) . "\").fadeIn('normal') });");
 			}
 		}
+	}
+	
+	
+	/**
+ 	* Delete the cached plugin changelog data
+ 	*
+ 	* @since 		1.2.6
+ 	* @author 		scripts@schloebe.de
+ 	*/
+	function flush_changelog_cache( $new_value ) {
+		$this->plugins_updated = false;
+		$old_value = (array)get_option('active_plugins');
+		
+		if ($new_value !== $old_value && in_array(plugin_basename( (__FILE__) ), (array)$new_value) && in_array(plugin_basename( (__FILE__) ), $old_value)) {
+			$this->plugins_updated = true;
+			if( count($old_value) < count((array)$new_value) )
+				$diff_value = array_diff((array)$new_value, $old_value);
+			else
+				$diff_value = array_diff($old_value, (array)$new_value);
+			
+			$slug_value = array();
+			foreach( $diff_value as $diff_plugin ) {
+				$slug_value[] = dirname( $diff_plugin );
+			}
+		}
+		
+		if( $this->plugins_updated == true ) {
+			foreach( $slug_value as $slug ) {
+				for($count = 0; $count < 20; $count++) {
+					delete_transient( 'clos_changelog_' . $slug . '_' . $count );
+					delete_transient( 'timeout_clos_changelog_' . $slug . '_' . $count );
+				}
+			}
+		}
+		return $new_value;
 	}
 	
 	
@@ -261,7 +325,7 @@ class Changelogger {
  	* @author 		scripts@schloebe.de
  	*/
 	function _esc_attr__( $str ) {
-		if( version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) )
+		if( CLOSMINWP28 )
 			return esc_attr__( $str, 'changelogger' );
 		else
 			return attribute_escape( __( $str, 'changelogger' ) );
@@ -276,7 +340,7 @@ class Changelogger {
  	* @author 		scripts@schloebe.de
  	*/
 	function _esc_js( $str ) {
-		if( version_compare( $GLOBALS['wp_version'], '2.7.999', '>' ) )
+		if( CLOSMINWP28 )
 			return esc_js( $str );
 		else
 			return js_escape( $str );
@@ -293,7 +357,7 @@ class Changelogger {
  	* @author 		scripts@schloebe.de
  	*/
 	function _plugins_url($path = '', $plugin = '') {
-		if( version_compare($GLOBALS['wp_version'], '2.7.999', '>') ) {
+		if( CLOSMINWP28 ) {
 			return plugins_url($path, $plugin);
 		} else {
 			$scheme = ( is_ssl() ? 'https' : 'http' );

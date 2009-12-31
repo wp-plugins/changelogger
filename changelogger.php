@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.2.6
+Version: 1.2.7
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("CLOSVERSION", "1.2.6");
+define("CLOSVERSION", "1.2.7");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -57,12 +57,6 @@ define('CLOSMINWP28', version_compare($GLOBALS['wp_version'], '2.7.999', '>'));
 * @author 		scripts@schloebe.de
 */
 class Changelogger {
-
-	/**
-	 * Have one or more plugins been updated?
-	 * @access private
-	 */
-	private $plugins_updated;
 	
 	/**
  	* The Changelogger class constructor
@@ -276,11 +270,11 @@ class Changelogger {
  	* @author 		scripts@schloebe.de
  	*/
 	function flush_changelog_cache( $new_value ) {
-		$this->plugins_updated = false;
+		$plugins_updated = false;
 		$old_value = (array)get_option('active_plugins');
 		
 		if ($new_value !== $old_value && in_array(plugin_basename( (__FILE__) ), (array)$new_value) && in_array(plugin_basename( (__FILE__) ), $old_value)) {
-			$this->plugins_updated = true;
+			$plugins_updated = true;
 			if( count($old_value) < count((array)$new_value) )
 				$diff_value = array_diff((array)$new_value, $old_value);
 			else
@@ -292,7 +286,7 @@ class Changelogger {
 			}
 		}
 		
-		if( $this->plugins_updated == true ) {
+		if( $plugins_updated == true ) {
 			foreach( $slug_value as $slug ) {
 				for($count = 0; $count < 20; $count++) {
 					delete_transient( 'clos_changelog_' . $slug . '_' . $count );

@@ -46,6 +46,9 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 == Changelog ==
 
+= 1.2.7 =
+* Fixed a PHP4 activation error in version 1.2.6
+
 = 1.2.6 =
 * Changelog results caching
 

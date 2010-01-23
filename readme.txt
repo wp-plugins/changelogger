@@ -3,7 +3,7 @@ Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
 Tags: changelogger, changelog, plugin, plugins, version, control
 Requires at least: 2.7
-Tested up to: 2.9.1
+Tested up to: 3.0-rare
 Stable tag: trunk
 
 Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
@@ -45,6 +45,9 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 4. Installation finished.
 
 == Changelog ==
+
+= 1.2.8 =
+* All "v"s in the changelog messages for each plugin were omitted (Thanks to [Moyo](http://www.viadat.com/) for the info!)
 
 = 1.2.7 =
 * Fixed a PHP4 activation error in version 1.2.6

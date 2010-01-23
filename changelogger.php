@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.2.7
+Version: 1.2.8
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("CLOSVERSION", "1.2.7");
+define("CLOSVERSION", "1.2.8");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -163,15 +163,15 @@ class Changelogger {
 						#echo '<pre>';
 						#print_r($api);
 						#echo '</pre>';
-						$search = array("<strong>Version ", "<h4>Version ", "Version ", "<strong>v", "<h4>v", "v");
-						$replace = array("<strong>", "<h4>", "", "<strong>", "<h4>", "");
+						$search = array("<strong>Version ", "<h4>Version ", "Version ", "<strong>v", "<h4>v");
+						$replace = array("<strong>", "<h4>", "", "<strong>", "<h4>");
 						$output .= '<tr' . $class_tr . '><td class="plugin-update clos-plugin-update" colspan="' . $columns . '"><div class="update-message clos-message" id="clos-message-' . $r->slug . '">';
 						$changelog = trim( str_replace($search, $replace, $changelog_result[0][0]) );
 						$l_arrw = '&laquo; ';
 						$r_arrw = ' <a href="#" onclick="clos_ajax_load_changelog( \'' . $r->slug . '\', \'1\' );return false;" title="' . $this->_esc_attr__('Previous version') . '" class="clos-arrw clos-arrw-r">&raquo;</a>';
 						$changelog = preg_replace( "#<h4>(.*)<\/h4>#i", $l_arrw . '\0' . $r_arrw, $changelog );
 						$changelog = preg_replace( "#<p><strong>(.*)<\/strong><\/p>#i", $l_arrw . '\0' . $r_arrw, $changelog );
-						$changelog = preg_replace( "#[\n|\r]{0,}(.*)[\n|\r]{2,}#iU", $l_arrw . '<strong>\1</strong>' . $r_arrw, $changelog );
+						#$changelog = preg_replace( "#[\n|\r]{0,}(.*)[\n|\r]{2,}#iU", $l_arrw . '<strong>\1</strong>' . $r_arrw, $changelog );
 						$output .= sprintf(__('What has changed in version %1$s', 'changelogger'), $changelog);
 						if ( isset($api->tested) && version_compare($api->tested, $cur_wp_version, '>=') ) {
 							$output .= ' ' . sprintf(__('Compatibility with WordPress %1$s: 100%% (according to its author).', 'changelogger'), $cur_wp_version);
@@ -246,12 +246,12 @@ class Changelogger {
 				else
 					$r_arrw = ' &raquo;';
 				
-				$search = array("<strong>Version ", "<h4>Version ", "<strong>v", "<h4>v");
-				$replace = array("<strong>", "<h4>", "<strong>", "<h4>");
+				$search = array("<strong>Version ", "<h4>Version ", "Version ", "<strong>v", "<h4>v");
+				$replace = array("<strong>", "<h4>", "", "<strong>", "<h4>");
 				$str_changelog = trim( str_replace($search, $replace, $changelog_result[0][$sectionid]) );
 				$str_changelog = preg_replace( "#<h4>(.*)<\/h4>#i", $l_arrw . '\0' . $r_arrw, $str_changelog );
 				$str_changelog = preg_replace( "#<p><strong>(.*)<\/strong><\/p>#i", $l_arrw . '\0' . $r_arrw, $str_changelog );
-				$str_changelog = preg_replace( "#[\n|\r]{0,}(.*)[\n|\r]{2,}#iU", $l_arrw . '<strong>\1</strong>' . $r_arrw, $str_changelog );
+				#$str_changelog = preg_replace( "#[\n|\r]{0,}(.*)[\n|\r]{2,}#iU", $l_arrw . '<strong>\1</strong>' . $r_arrw, $str_changelog );
 				$versioninfo = sprintf(__('What has changed in version %1$s', 'changelogger'), $str_changelog);
 				
 				if( CLOSMINWP28 && !$current_changelog )

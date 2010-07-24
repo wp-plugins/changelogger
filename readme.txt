@@ -46,10 +46,14 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 == Upgrade Notice ==
 
-= 1.2.9 =
-Changelogs should show up for all plugins in WP 3.0 now.
+= 1.2.10 =
+Fixed PHP warnings on certain server configs.
 
 == Changelog ==
+
+= 1.2.10 =
+* Fixed PHP warnings on certain server configs
+* Code cleanup
 
 = 1.2.9 =
 * Changelogs should show up for all plugins in WP 3.0 now

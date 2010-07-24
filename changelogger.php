@@ -8,7 +8,7 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.2.9
+Version: 1.2.10
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("CLOSVERSION", "1.2.9");
+define("CLOSVERSION", "1.2.10");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running
@@ -86,11 +86,11 @@ class Changelogger {
  	* @since 		1.0
  	* @author 		scripts@schloebe.de
  	*/		
-	function __construct(){
+	function __construct() {
 		$this->textdomain_loaded = false;
 		
 		if ( !CLOSISWP27 ) {
-			add_action('admin_notices', array(&$this, 'wpVersion27Failed'));
+			add_action('admin_notices', array(&$this, 'require_wpversion_message'));
 			return;
 		}
 		
@@ -107,6 +107,29 @@ class Changelogger {
 	
 	
 	/**
+ 	* Enqueue the scripts and styles
+ 	* 
+ 	* @since 		1.2.10
+ 	* @author 		scripts@schloebe.de
+ 	*/		
+	function enqueue_scripts_and_styles() {
+		wp_enqueue_script(
+			'clos-generalscripts',
+			$this->_plugins_url( 'js/admin_scripts.js', __FILE__ ),
+			array('jquery', 'sack'),
+			CLOSVERSION
+		);
+		wp_enqueue_style(
+			'clos-generalstyles',
+			$this->_plugins_url( 'css/style.css', __FILE__ ),
+			array(),
+			CLOSVERSION,
+			'screen'
+		);
+	}
+	
+	
+	/**
  	* Initialize and load the plugin stuff
  	*
  	* @since 		1.0
@@ -118,8 +141,7 @@ class Changelogger {
 		if ( !function_exists("add_action") ) return;
 		
 		if( $pagenow == 'plugins.php' && !isset( $_GET['action'] ) ) {
-			add_action('admin_head', wp_enqueue_script( 'clos-generalscripts', $this->_plugins_url( 'js/admin_scripts.js', __FILE__ ), array('jquery', 'sack'), CLOSVERSION ) );
-			add_action('admin_head', wp_enqueue_style( 'clos-generalstyles', $this->_plugins_url( 'css/style.css', __FILE__ ), array(), CLOSVERSION, 'screen' ) );
+			$this->enqueue_scripts_and_styles();
 			add_action('admin_print_scripts', array(&$this, 'js_admin_header') );
 		}
 	}
@@ -426,7 +448,7 @@ var clos_ajaxurl = "<?php echo $this->_esc_js( get_bloginfo( 'wpurl' ) . '/wp-ad
  	* @since 		1.0
  	* @author 		scripts@schloebe.de
  	*/
-	function wpVersion27Failed() {
+	function require_wpversion_message() {
 		echo "<div id='wpversionfailedmessage' class='error fade'><p>" . __('Changelogger requires at least WordPress 2.7!', 'changelogger') . "</p></div>";
 	}
 	

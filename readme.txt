@@ -3,7 +3,7 @@ Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
 Tags: changelogger, changelog, plugin, plugins, version, control
 Requires at least: 2.7
-Tested up to: 3.0
+Tested up to: 3.0.1
 Stable tag: trunk
 
 Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
@@ -46,10 +46,13 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 
 == Upgrade Notice ==
 
-= 1.2.10 =
-Fixed PHP warnings on certain server configs.
+= 1.2.11 =
+Changelogs show up on Multisite environments now (Thanks Richard!)
 
 == Changelog ==
+
+= 1.2.11 =
+* Changelogs show up on Multisite environments now (Thanks Richard!)
 
 = 1.2.10 =
 * Fixed PHP warnings on certain server configs

@@ -3,7 +3,7 @@ Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
 Tags: changelogger, changelog, plugin, plugins, version, control
 Requires at least: 2.7
-Tested up to: 3.0.1
+Tested up to: 3.1
 Stable tag: trunk
 
 Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.

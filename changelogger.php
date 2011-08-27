@@ -8,13 +8,13 @@
  
 /*
 Plugin Name: Changelogger
-Version: 1.2.11
+Version: 1.2.12
 Plugin URI: http://www.schloebe.de/wordpress/changelogger-plugin/
 Description: <strong>WordPress 2.7+ only.</strong> For many many people a changelog is a very important thing; it is all about justifying to your users why they should upgrade to the latest version of a plugin. Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 Author: Oliver Schl&ouml;be
 Author URI: http://www.schloebe.de/
 
-Copyright 2010 Oliver Schlöbe (email : scripts@schloebe.de)
+Copyright 2010-2011 Oliver Schlöbe (email : scripts@schloebe.de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /**
  * Define the plugin version
  */
-define("CLOSVERSION", "1.2.11");
+define("CLOSVERSION", "1.2.12");
 
 /**
  * Define the global var CLOSISWP27, returning bool if at least WP 2.7 is running

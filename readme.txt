@@ -3,7 +3,7 @@ Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
 Tags: changelogger, changelog, plugin, plugins, version, control
 Requires at least: 2.7
-Tested up to: 3.3
+Tested up to: 3.4-alpha-19620
 Stable tag: trunk
 
 Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
@@ -46,6 +46,9 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 4. Installation finished.
 
 == Upgrade Notice ==
+
+= 1.2.13 =
+* Maintenance Release
 
 = 1.2.12 =
 * Added bulgarian localization (Thanks to [Dimitar Kolevski](http://webhostinggeeks.com))

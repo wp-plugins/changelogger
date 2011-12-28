@@ -50,13 +50,13 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 = 1.2.13 =
 * Maintenance Release
 
+== Changelog ==
+
+= 1.2.13 =
+* Maintenance Release
+
 = 1.2.12 =
 * Added bulgarian localization (Thanks to [Dimitar Kolevski](http://webhostinggeeks.com))
-
-= 1.2.11 =
-* Changelogs show up on Multisite environments now (Thanks Richard!)
-
-== Changelog ==
 
 = 1.2.11 =
 * Changelogs show up on Multisite environments now (Thanks Richard!)

@@ -16,7 +16,7 @@ For many many people a changelog is a very important thing; it is all about just
 
 **Note:** The inline changelog on a plugin update shows up if the plugin author added a changelog section based on the new [readme.txt example file](http://wordpress.org/extend/plugins/about/readme.txt "readme.txt example file") to their plugin's readme file.
 
-[Developer on Google+](https://plus.google.com/100776016153395792354 "Developer on Google+") | [Developer on Twitter](http://twitter.com/wpseek "Developer on Twitter")
+[Developer on Google+](https://plus.google.com/118074611982254715031 "Developer on Google+") | [Developer on Twitter](http://twitter.com/wpseek "Developer on Twitter")
 
 **Included languages:**
 

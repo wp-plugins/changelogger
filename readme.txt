@@ -16,6 +16,8 @@ For many many people a changelog is a very important thing; it is all about just
 
 **Note:** The inline changelog on a plugin update shows up if the plugin author added a changelog section based on the new [readme.txt example file](http://wordpress.org/extend/plugins/about/readme.txt "readme.txt example file") to their plugin's readme file.
 
+[Developer on Google+](https://plus.google.com/100776016153395792354 "Developer on Google+") | [Developer on Twitter](http://twitter.com/wpseek "Developer on Twitter")
+
 **Included languages:**
 
 * English
@@ -25,9 +27,6 @@ For many many people a changelog is a very important thing; it is all about just
 * Polish (pl_PL) (Thanks for contributing polish language goes to [Daniel Fruzynski](http://www.poradnik-webmastera.com/))
 * Belorussian (be_BY) (Thanks for contributing belorussian language goes to [FatCow](http://www.fatcow.com))
 * Bulgarian (bg_BG) (Thanks for contributing bulgarian language goes to [Dimitar Kolevski](http://webhostinggeeks.com))
-
-**- Developer on Google+: https://plus.google.com/100776016153395792354
-- Developer on Twitter: http://twitter.com/wpseek**
 
 **Want update feeds, code documentation and more? Visit [extend.schloebe.de](http://extend.schloebe.de)**
 

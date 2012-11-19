@@ -1,10 +1,12 @@
 === Changelogger ===
 Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
-Tags: changelogger, changelog, plugin, plugins, version, control
+Tags: changelogger, changelog, version, control
 Requires at least: 2.7
-Tested up to: 3.4
+Tested up to: 3.5
 Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Changelogger shows the latest changelog right on the plugin listing page, whenever there's a plugin ready to be updated.
 
@@ -48,6 +50,10 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 4. Installation finished.
 
 == Upgrade Notice ==
+
+= 1.2.15 =
+* Readme.txt updated to be more compliant with the readme.txt standard
+* Moved screenshots off the package to the assets/ folder
 
 = 1.2.14 =
 * Maintenance Release

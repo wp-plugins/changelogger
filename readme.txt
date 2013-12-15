@@ -49,23 +49,11 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 3. Activate the plugin from your WordPress admin panel.
 4. Installation finished.
 
-== Upgrade Notice ==
+== Changelog ==
 
 = 1.2.16 =
 * 'Redefining already defined constructor' bug that occured on several configurations
 * WP 3.8 compatibility
-
-= 1.2.15 =
-* Readme.txt updated to be more compliant with the readme.txt standard
-* Moved screenshots off the package to the assets/ folder
-
-= 1.2.14 =
-* Maintenance Release
-
-= 1.2.13 =
-* Maintenance Release
-
-== Changelog ==
 
 = 1.2.13 =
 * Maintenance Release

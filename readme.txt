@@ -3,7 +3,7 @@ Contributors: Alphawolf
 Donate link: http://www.schloebe.de/donate/
 Tags: changelogger, changelog, version, control
 Requires at least: 2.7
-Tested up to: 4.1
+Tested up to: 4.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,11 +26,12 @@ For many many people a changelog is a very important thing; it is all about just
 
 * English
 * German (de_DE) (Thanks to me ;-))
-* Romanian (ro_RO) (Thanks for contributing romanian language goes to [Juergen Toth](http://www.relijoc.ro))
-* French (fr_FR) (Thanks for contributing french language goes to [Mehdi Kabab](http://pioupioum.fr))
-* Polish (pl_PL) (Thanks for contributing polish language goes to [Daniel Fruzynski](http://www.poradnik-webmastera.com/))
-* Belorussian (be_BY) (Thanks for contributing belorussian language goes to [FatCow](http://www.fatcow.com))
-* Bulgarian (bg_BG) (Thanks for contributing bulgarian language goes to [Dimitar Kolevski](http://webhostinggeeks.com))
+* Romanian (ro_RO) (Thanks for contributing romanian language goes to Juergen Toth)
+* French (fr_FR) (Thanks for contributing french language goes to Mehdi Kabab)
+* Polish (pl_PL) (Thanks for contributing polish language goes to Daniel Fruzynski)
+* Belorussian (be_BY) (Thanks for contributing belorussian language goes to FatCow)
+* Bulgarian (bg_BG) (Thanks for contributing bulgarian language goes to Dimitar Kolevski)
+* Ukrainian (uk_UA) (Thanks for contributing ukrainian language goes to Michael Yunat)
 
 **Looking for more WordPress plugins? Visit [www.schloebe.de/portfolio/](http://www.schloebe.de/portfolio/)**
 
@@ -52,6 +53,9 @@ Please visit [the official website](http://www.schloebe.de/wordpress/changelogge
 4. Installation finished.
 
 == Changelog ==
+
+= 1.2.17 =
+* Added ukrainian localization (Thanks to Michael Yunat)
 
 = 1.2.16 =
 * 'Redefining already defined constructor' bug that occured on several configurations
